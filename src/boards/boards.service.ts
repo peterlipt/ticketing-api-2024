@@ -22,10 +22,18 @@ export class BoardsService {
   }
 
   async update(id: number, data: Prisma.BoardUpdateInput): Promise<Board> {
-    return await this.prisma.board.update({ where: { id }, data });
+    try {
+      return await this.prisma.board.update({ where: { id }, data });
+    } catch {
+      throw new NotFoundException('Board not found');
+    }
   }
 
   async remove(id: number): Promise<Board> {
-    return await this.prisma.board.delete({ where: { id } });
+    try {
+      return await this.prisma.board.delete({ where: { id } });
+    } catch {
+      throw new NotFoundException('Board not found');
+    }
   }
 }
